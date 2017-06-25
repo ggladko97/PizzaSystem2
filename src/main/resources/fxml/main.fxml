@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+   <columnConstraints>
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+   </rowConstraints>
+   <children>
+      <AnchorPane prefHeight="242.0" prefWidth="557.0" styleClass="main-back">
+         <children>
+            <Label layoutX="340.0" layoutY="60.0" text="Password" textFill="#000000c1" />
+            <Label layoutX="340.0" layoutY="14.0" prefHeight="16.0" prefWidth="129.0" text="Login" textFill="#000000ae" />
+            <TextField fx:id="inputLogin" layoutX="340.0" layoutY="34.0" prefHeight="22.0" prefWidth="112.0" />
+            <TextField fx:id="inputPassword" layoutX="340.0" layoutY="76.0" prefHeight="26.0" prefWidth="112.0" />
+            <RadioButton fx:id="rbUser" layoutX="344.0" layoutY="131.0" mnemonicParsing="false" text="User" textFill="#f54d0a" />
+            <RadioButton fx:id="rbAdmin" layoutX="405.0" layoutY="131.0" mnemonicParsing="false" text="Administrator" />
+            <Button fx:id="btnSignIn" layoutX="340.0" layoutY="166.0" mnemonicParsing="false" onAction="#signIn" prefHeight="26.0" prefWidth="112.0" text="Sign in" textFill="#eb991d" />
+            <Button fx:id="btnNewUser" layoutX="340.0" layoutY="204.0" mnemonicParsing="false" onAction="#addNewUser" prefHeight="26.0" prefWidth="112.0" text="New User" textFill="#da8d20" />
+            <Label fx:id="loginResult" layoutX="14.0" layoutY="14.0" prefHeight="59.0" prefWidth="287.0" text="Pizza Elite" textFill="#eead08">
+               <font>
+                  <Font size="51.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="14.0" layoutY="76.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../java/sample/images/mainImage.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="340.0" layoutY="102.0" />
+            
+         </children>
+
+        <stylesheets>
+          <URL value="@../../java/sample/styles.css" />
+        </stylesheets>
+      </AnchorPane>
+   </children>
+</GridPane>

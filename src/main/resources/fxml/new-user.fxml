@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.NewUserScene">
+  <columnConstraints>
+    <ColumnConstraints />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints />
+  </rowConstraints>
+  <children>
+    <AnchorPane prefHeight="242.0" prefWidth="557.0" styleClass="main-back">
+
+      <stylesheets>
+        <URL value="@../../java/sample/styles.css" />
+      </stylesheets>
+         <children>
+            <TextField fx:id="inputName" layoutX="25.0" layoutY="40.0" />
+            <TextField fx:id="inputMail" layoutX="25.0" layoutY="84.0" />
+            <TextField fx:id="inputPhone" layoutX="25.0" layoutY="131.0" />
+            <TextField fx:id="inputPassword" layoutX="25.0" layoutY="178.0" />
+            <TextField fx:id="inputToken" layoutX="217.0" layoutY="178.0" />
+            <Label layoutX="25.0" layoutY="24.0" text="Name" />
+            <Label layoutX="25.0" layoutY="66.0" text="E-mail" />
+            <Label layoutX="25.0" layoutY="113.0" text="T-phone" />
+            <Label layoutX="25.0" layoutY="162.0" text="Password" />
+            <Label layoutX="217.0" layoutY="162.0" prefHeight="16.0" prefWidth="185.0" text="Put your Admin token here" />
+            <Label layoutX="236.0" layoutY="37.0" prefHeight="73.0" prefWidth="301.0" text="Enjoy the Best" textFill="#fcaf21">
+               <font>
+                  <Font name="Noto Sans CJK JP Light" size="36.0" />
+               </font>
+            </Label>
+            <Slider fx:id="sliderHappiness" layoutX="217.0" layoutY="136.0" max="10.0" />
+            <Label layoutX="218.0" layoutY="113.0" text="How much do you like pizza?" />
+            <Button fx:id="btnCreateUser" layoutX="437.0" layoutY="178.0" mnemonicParsing="false" onAction="#createUser" text="Let's go!" />
+            <Label layoutX="236.0" layoutY="15.0" text="Pizza Elite" textFill="#e1a219">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblResult" layoutX="218.0" layoutY="212.0" prefHeight="16.0" prefWidth="222.0" />
+         </children>
+    </AnchorPane>
+  </children>
+</GridPane>
