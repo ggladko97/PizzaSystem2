@@ -1,5 +1,6 @@
 package sample;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -49,7 +50,7 @@ public class Controller implements Initializable {
   }
 
   @FXML
-  public void signIn(ActionEvent actionEvent) {
+  public void signIn(ActionEvent actionEvent) throws IOException {
     usersDao = new UsersDaoImpl();
     tokensDao = new TokensDaoImpl();
     String login = inputLogin.getText();
@@ -80,6 +81,7 @@ public class Controller implements Initializable {
       }
       String message = loggedIn ? "Success" : "Try again";
       loginResult.setText(message);
+      changeScene("client-main",btnSignIn);
 
     } else if (rbAdmin.isSelected()) {
       boolean adminLoggined = false;
@@ -104,7 +106,23 @@ public class Controller implements Initializable {
 
   @FXML
   public void addNewUser(ActionEvent actionEvent) throws Exception {
-    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/new-user.fxml"));
+    //FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/new-user.fxml"));
+    //System.out.println("LOADER LOADED");
+    //Parent root1 = (Parent) fxmlLoader.load();
+    //Stage stage = new Stage();
+    //stage.initModality(Modality.APPLICATION_MODAL);
+    //stage.setTitle("NEW USER");
+    //stage.setScene(new Scene(root1));
+    //System.out.println("STAGE SET SCENE");
+    //stage.show();
+    //Stage stageOld = (Stage) btnNewUser.getScene().getWindow();
+    //stageOld.close();
+    //System.out.println("STAGE SHOW");
+    changeScene("new-user", btnNewUser);
+  }
+
+  public void changeScene(String fxmlPath, Button flag) throws IOException {
+    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/"+ fxmlPath + ".fxml"));
     System.out.println("LOADER LOADED");
     Parent root1 = (Parent) fxmlLoader.load();
     Stage stage = new Stage();
@@ -113,7 +131,7 @@ public class Controller implements Initializable {
     stage.setScene(new Scene(root1));
     System.out.println("STAGE SET SCENE");
     stage.show();
-    Stage stageOld = (Stage) btnNewUser.getScene().getWindow();
+    Stage stageOld = (Stage) flag.getScene().getWindow();
     stageOld.close();
     System.out.println("STAGE SHOW");
   }

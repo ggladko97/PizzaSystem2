@@ -1,14 +1,17 @@
 package sample.entity;
 
+import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  * Created by ggladko97 on 25.06.17.
  */
-@Entity public class Users {
+@Entity public class Users implements Serializable {
   private int id;
   private String name;
   private String email;
@@ -16,7 +19,10 @@ import javax.persistence.Id;
   private String password;
   private byte token;
 
-  @Id @Column(name = "id", nullable = false) public int getId() {
+
+  @Id
+  @Column(name = "id")
+  public int getId() {
     return id;
   }
 
@@ -67,6 +73,7 @@ import javax.persistence.Id;
   public void setToken(byte token) {
     this.token = token;
   }
+
 
   @Override public boolean equals(Object o) {
     if (this == o) return true;

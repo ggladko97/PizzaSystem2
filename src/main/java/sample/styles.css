@@ -4,3 +4,7 @@
 
 }
 
+.options {
+  -fx-background-image: url("/sample/images/optns.png");
+  -fx-background-size: 15px,15px;
+}
