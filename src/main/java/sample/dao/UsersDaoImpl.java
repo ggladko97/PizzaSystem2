@@ -28,31 +28,39 @@ public class UsersDaoImpl implements UsersDao {
 
   public void updateUsers(Users user) {
     Session session = factory.openSession();
+    tx = session.beginTransaction();
     session.update(user);
+    tx.commit();
   }
 
 
   public List<Users> listUsers() {
     Session session = factory.openSession();
+    tx = session.beginTransaction();
     System.out.println("Session opened");
     Query query = session.createQuery("from sample.entity.Users");
     List<Users> users = query.list();
+    tx.commit();
     return users;
   }
 
 
   public Users getUsersById(int id) {
     Session session = factory.openSession();
+    tx = session.beginTransaction();
     Users user = (Users) session.get(Users.class,id);
+    tx.commit();
     return user;
   }
 
 
   public void removeUsers(int id) {
     Session session = factory.openSession();
+    tx = session.beginTransaction();
     Users user = (Users) session.get(Users.class,id);
     if (user != null) {
       session.delete(user);
+      tx.commit();
     }
   }
 }

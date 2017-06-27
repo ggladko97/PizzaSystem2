@@ -1,6 +1,7 @@
 package sample;
 
 
+import java.io.IOException;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -9,24 +10,30 @@ import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import sample.dao.TokensDao;
 import sample.dao.TokensDaoImpl;
 import sample.dao.UsersDao;
 import sample.dao.UsersDaoImpl;
 import sample.entity.Tokens;
 import sample.entity.Users;
+import sample.utils.CryptUtil;
 
 /**
  * Created by ggladko97 on 24.06.17.
  */
 public class NewUserScene implements Initializable{
 
-  private static MessageDigest md;
+  //private static MessageDigest md;
 
 
   private UsersDao usersDao;
@@ -35,24 +42,7 @@ public class NewUserScene implements Initializable{
 
 
 
-  public static String cryptWithMD5(String pass){
-    try {
-      md = MessageDigest.getInstance("MD5");
-      byte[] passBytes = pass.getBytes();
-      md.reset();
-      byte[] digested = md.digest(passBytes);
-      StringBuffer sb = new StringBuffer();
-      for(int i=0;i<digested.length;i++){
-        sb.append(Integer.toHexString(0xff & digested[i]));
-      }
-      return sb.toString();
-    } catch (NoSuchAlgorithmException ex) {
 
-    }
-    return null;
-
-
-  }
   @FXML
   public Label lblResult;
   @FXML
@@ -71,7 +61,7 @@ public class NewUserScene implements Initializable{
   public Button btnCreateUser;
 
   @FXML
-  public void createUser(ActionEvent actionEvent) {
+  public void createUser(ActionEvent actionEvent) throws IOException {
     usersDao = new UsersDaoImpl();
     tokensDao = new TokensDaoImpl();
     List<String> errors = new ArrayList<>();
@@ -99,18 +89,18 @@ public class NewUserScene implements Initializable{
       System.out.println("Existing usrs: " + existingUsers);
         for (Users u : existingUsers) {
           if (u.getName().equals(name) ||
-              u.getPassword().equals(cryptWithMD5(password))) {
+              u.getPassword().equals(CryptUtil.cryptWithMD5(password))) {
             lblResult.setText("User or password exists. Log in");
             excistingFlag = true;
           }
         }
         if (excistingFlag == false) {
           Users newUser = new Users();
-          newUser.setId(1);
+
           newUser.setName(name);
           newUser.setEmail(mail);
           newUser.setPhone(phone);
-          newUser.setPassword(cryptWithMD5(password));
+          newUser.setPassword(CryptUtil.cryptWithMD5(password));
 
           if (token.isEmpty()) {
             newUser.setToken((byte) 1);
@@ -132,6 +122,20 @@ public class NewUserScene implements Initializable{
           System.out.println(newUser);
           usersDao.insert(newUser);
           lblResult.setText("Authentication succeed");
+
+          FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
+          System.out.println("LOADER LOADED");
+          Parent root1 = (Parent) fxmlLoader.load();
+          Stage stage = new Stage();
+          stage.initModality(Modality.APPLICATION_MODAL);
+          stage.setTitle("Log in");
+          stage.setScene(new Scene(root1));
+          System.out.println("STAGE SET NEw SCENE");
+          stage.show();
+          Stage stageOld = (Stage) btnCreateUser.getScene().getWindow();
+          stageOld.close();
+          System.out.println("STAGE SHOW");
+
         } else {
           lblResult.setText("New user creation failed. Try again");
         }

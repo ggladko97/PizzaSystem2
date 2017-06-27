@@ -1,6 +1,7 @@
 package sample;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,9 +15,18 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import sample.dao.TokensDao;
+import sample.dao.TokensDaoImpl;
+import sample.dao.UsersDao;
+import sample.dao.UsersDaoImpl;
+import sample.entity.Users;
+import sample.utils.CryptUtil;
 
 public class Controller implements Initializable {
 
+
+  private UsersDao usersDao;
+  private TokensDao tokensDao;
 
   @FXML
   public Button btnNewUser;
@@ -40,15 +50,52 @@ public class Controller implements Initializable {
 
   @FXML
   public void signIn(ActionEvent actionEvent) {
-
+    usersDao = new UsersDaoImpl();
+    tokensDao = new TokensDaoImpl();
+    String login = inputLogin.getText();
+    String psswd = inputPassword.getText();
+    List<Users> registeredUsers = usersDao.listUsers();
+    boolean loggedIn = false;
     if (rbUser.isSelected()) {
       if (rbAdmin.isSelected()) {
         loginResult.setText("Choose exactly one option");
       } else {
-        //perform log in logic for user
+        if (registeredUsers.isEmpty()) {
+          loginResult.setText("No users");
+        } else {
+          for (Users u : registeredUsers) {
+            if (u.getToken() == 0) {
+              registeredUsers.remove(u);
+            } else {
+              if (u.getName().equals(login)) {
+                if (u.getPassword().equals(CryptUtil.cryptWithMD5(psswd))) {
+                  loginResult.setText("Success");
+                  loggedIn = true;
+                  break;
+                }
+              }
+            }
+          }
+        }
       }
+      String message = loggedIn ? "Success" : "Try again";
+      loginResult.setText(message);
+
     } else if (rbAdmin.isSelected()) {
-      //perform log in logic for admin
+      boolean adminLoggined = false;
+      for (Users u : registeredUsers) {
+        if (u.getToken() == 1){
+          if (u.getName().equals(login)) {
+            if (u.getPassword().equals(CryptUtil.cryptWithMD5(psswd))) {
+              loginResult.setText("Success");
+              adminLoggined = true;
+              break;
+            }
+          }
+        }
+      }
+      String message = adminLoggined ? "Success Admin Logged" : "Try again Admin";
+      loginResult.setText(message);
     } else {
       loginResult.setText("Choose Admin or User field");
     }
